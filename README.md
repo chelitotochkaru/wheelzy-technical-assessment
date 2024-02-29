@@ -8,7 +8,7 @@
 2) Para resolver este tipo de situaciones se me ocurre implementar alguna herramienta de cache (2nd-Level Cache / In-Memory Cache) como Redis, Memcached, Cassandra, etc.
 3) * En mi experiencia el método SingleOrDefault() es menos performante que FirstOrDefault().
    * Validar que el FirstOrDefault no sea null antes de actualizar la propiedad.
-   * Quitar el método dbContext.SaveChanges() de la iteración para evitar las multiples llamadas a la base de datos.
+   * Quitar el método dbContext.SaveChanges() de la iteración para evitar las multiples llamadas a la base de datos.<br /><br/>
    ```csharp
    public void UpdateCustomersBalanceByInvoices(List<Invoice> invoices)
    {
