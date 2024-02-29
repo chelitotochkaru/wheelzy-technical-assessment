@@ -58,3 +58,11 @@ Una vez abierta la solución se debe configurar la conexión de la base de datos
 ```
 > En el caso que no se configure usuario _sa_, el usuario configurado debe tener permisos de creación debido a que EF Migrations va a intentar crear la base de datos en el caso que no exista.<br />
 > La creación y ejecución de las migraciones se ejecutan de forma automática en cada ejecución del proyecto (solo en ambientes _no productivos_).
+
+Ejecutar el proyecto y... voilá!
+
+## Nota final
+
+Disfruté mucho hacer este challenge. Si bien entiendo que podría haber enviado código suelto o un diagrama de la base de datos, o un .sql con la definición de la misma, preferí invertir unas horas más y entregar un proyecto 100% funcional, con la implementación del punto (4 lista para ser ejecutada y probada.
+
+¡Saludos!
