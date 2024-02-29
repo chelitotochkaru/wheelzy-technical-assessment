@@ -204,7 +204,8 @@ namespace Wheelzy.Infrastructure
         {
             modelBuilder.Entity<Customer>().HasData(
                 new Customer() { Id = 1, Name = "Jack" },
-                new Customer() { Id = 2, Name = "Peter" }
+                new Customer() { Id = 2, Name = "Peter" },
+                new Customer() { Id = 3, Name = "Paul" }
             );
         }
 
@@ -232,7 +233,7 @@ namespace Wheelzy.Infrastructure
                 new Submodel() { Id = 1, ModelId = 1, Description = "Base" },
                 new Submodel() { Id = 2, ModelId = 1, Description = "S" },
                 new Submodel() { Id = 3, ModelId = 2, Description = "Base" },
-                new Submodel() { Id = 4, ModelId = 2, Description = "Eco" }
+                new Submodel() { Id = 4, ModelId = 4, Description = "Base" }
             );
         }
 
@@ -250,8 +251,9 @@ namespace Wheelzy.Infrastructure
             modelBuilder.Entity<Car>().HasData(
                 new Car() { Id = 1, MakeId = 1, ModelId = 1, SubmodelId = 1, Year = 2018, ZipCode = 30033 },
                 new Car() { Id = 2, MakeId = 1, ModelId = 2, SubmodelId = 2, Year = 2018, ZipCode = 20110 },
-                new Car() { Id = 3, MakeId = 2, ModelId = 1, SubmodelId = 1, Year = 2018, ZipCode = 30315 },
-                new Car() { Id = 4, MakeId = 2, ModelId = 2, SubmodelId = 2, Year = 2018, ZipCode = 22003 }
+                new Car() { Id = 3, MakeId = 2, ModelId = 1, SubmodelId = 1, Year = 2022, ZipCode = 30315 },
+                new Car() { Id = 4, MakeId = 2, ModelId = 2, SubmodelId = 2, Year = 2022, ZipCode = 20110 },
+                new Car() { Id = 5, MakeId = 2, ModelId = 4, SubmodelId = 4, Year = 2020, ZipCode = 30315 }
             );
         }
 
@@ -268,18 +270,19 @@ namespace Wheelzy.Infrastructure
         private void dataSeedingOrder(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().HasData(
-                new Order() { Id = 1, CustomerId = 1, CarId = 1, BuyerId = 1, StatusId = 1,CreatedDate = new DateTime(2024, 02, 28) },
-                new Order() { Id = 2, CustomerId = 2, CarId = 2, BuyerId = 2, StatusId = 4, CreatedDate = new DateTime(2024, 02, 24), PickedUpDate = new DateTime(2024, 02, 28) }
+                new Order() { Id = 1, CustomerId = 1, CarId = 1, BuyerId = 2, StatusId = 1, CreatedDate = new DateTime(2024, 02, 28), Active = false },
+                new Order() { Id = 2, CustomerId = 2, CarId = 4, BuyerId = 1, StatusId = 2, CreatedDate = new DateTime(2024, 02, 28), Active = true },
+                new Order() { Id = 3, CustomerId = 3, CarId = 3, BuyerId = 2, StatusId = 4, CreatedDate = new DateTime(2024, 02, 24), Active = true, PickedUpDate = new DateTime(2024, 02, 28) }
             );
         }
 
         private void dataSeedingTracking(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tracking>().HasData(
-                new Tracking() { Id = 1, OrderId = 1, StatusId = 1, Timestamp = new DateTime(2024, 02, 28) },
-                new Tracking() { Id = 2, OrderId = 2, StatusId = 1, Timestamp = new DateTime(2024, 02, 24) },
-                new Tracking() { Id = 3, OrderId = 2, StatusId = 2, Timestamp = new DateTime(2024, 02, 24) },
-                new Tracking() { Id = 4, OrderId = 2, StatusId = 3, Timestamp = new DateTime(2024, 02, 26) }
+                new Tracking() { Id = 1, OrderId = 2, StatusId = 1, Timestamp = new DateTime(2024, 02, 22) },
+                new Tracking() { Id = 2, OrderId = 3, StatusId = 1, Timestamp = new DateTime(2024, 02, 24) },
+                new Tracking() { Id = 3, OrderId = 3, StatusId = 2, Timestamp = new DateTime(2024, 02, 24) },
+                new Tracking() { Id = 4, OrderId = 3, StatusId = 3, Timestamp = new DateTime(2024, 02, 26) }
             );
         }
 

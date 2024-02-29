@@ -14,6 +14,7 @@ namespace Wheelzy.Domain.Entities
 		public Buyer Buyer { get; set; }
 		public DateTime CreatedDate { get; set; }
         public DateTime? PickedUpDate { get; set; }
+		public bool Active { get; set; }
     }
 }
 

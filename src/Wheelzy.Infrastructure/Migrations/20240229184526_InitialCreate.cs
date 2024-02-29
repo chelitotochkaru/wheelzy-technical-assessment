@@ -146,7 +146,9 @@ namespace Wheelzy.Infrastructure.Migrations
                     CarId = table.Column<int>(type: "int", nullable: false),
                     StatusId = table.Column<int>(type: "int", nullable: false),
                     BuyerId = table.Column<int>(type: "int", nullable: false),
-                    PickedUpDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PickedUpDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -226,7 +228,8 @@ namespace Wheelzy.Infrastructure.Migrations
                 values: new object[,]
                 {
                     { 1, "Jack" },
-                    { 2, "Peter" }
+                    { 2, "Peter" },
+                    { 3, "Paul" }
                 });
 
             migrationBuilder.InsertData(
@@ -259,7 +262,7 @@ namespace Wheelzy.Infrastructure.Migrations
                     { 1, "Base", 1 },
                     { 2, "S", 1 },
                     { 3, "Base", 2 },
-                    { 4, "Eco", 2 }
+                    { 4, "Base", 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -269,17 +272,19 @@ namespace Wheelzy.Infrastructure.Migrations
                 {
                     { 1, 1, 1, 1, 2018, 30033 },
                     { 2, 1, 2, 2, 2018, 20110 },
-                    { 3, 2, 1, 1, 2018, 30315 },
-                    { 4, 2, 2, 2, 2018, 22003 }
+                    { 3, 2, 1, 1, 2022, 30315 },
+                    { 4, 2, 2, 2, 2022, 20110 },
+                    { 5, 2, 4, 4, 2020, 30315 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "BuyerId", "CarId", "CustomerId", "PickedUpDate", "StatusId" },
+                columns: new[] { "Id", "Active", "BuyerId", "CarId", "CreatedDate", "CustomerId", "PickedUpDate", "StatusId" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 2, 2, 2, 1, new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 4 }
+                    { 1, false, 2, 1, new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, 1 },
+                    { 2, true, 1, 4, new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null, 2 },
+                    { 3, true, 2, 3, new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -287,10 +292,10 @@ namespace Wheelzy.Infrastructure.Migrations
                 columns: new[] { "Id", "OrderId", "StatusId", "Timestamp" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 2, 1, new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 2, 2, new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, 2, 3, new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 2, 1, new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 3, 1, new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 3, 2, new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 3, 3, new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.CreateIndex(

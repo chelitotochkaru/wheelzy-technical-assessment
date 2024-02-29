@@ -152,7 +152,7 @@ namespace Wheelzy.Infrastructure.Migrations
                             MakeId = 2,
                             ModelId = 1,
                             SubmodelId = 1,
-                            Year = 2018,
+                            Year = 2022,
                             ZipCode = 30315
                         },
                         new
@@ -161,8 +161,17 @@ namespace Wheelzy.Infrastructure.Migrations
                             MakeId = 2,
                             ModelId = 2,
                             SubmodelId = 2,
-                            Year = 2018,
-                            ZipCode = 22003
+                            Year = 2022,
+                            ZipCode = 20110
+                        },
+                        new
+                        {
+                            Id = 5,
+                            MakeId = 2,
+                            ModelId = 4,
+                            SubmodelId = 4,
+                            Year = 2020,
+                            ZipCode = 30315
                         });
                 });
 
@@ -192,6 +201,11 @@ namespace Wheelzy.Infrastructure.Migrations
                         {
                             Id = 2,
                             Name = "Peter"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Paul"
                         });
                 });
 
@@ -251,6 +265,9 @@ namespace Wheelzy.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
                     b.Property<int>("BuyerId")
                         .HasColumnType("int");
 
@@ -286,7 +303,8 @@ namespace Wheelzy.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            BuyerId = 1,
+                            Active = false,
+                            BuyerId = 2,
                             CarId = 1,
                             CreatedDate = new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 1,
@@ -295,10 +313,21 @@ namespace Wheelzy.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
-                            BuyerId = 2,
-                            CarId = 2,
-                            CreatedDate = new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Active = true,
+                            BuyerId = 1,
+                            CarId = 4,
+                            CreatedDate = new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 2,
+                            StatusId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Active = true,
+                            BuyerId = 2,
+                            CarId = 3,
+                            CreatedDate = new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
                             PickedUpDate = new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatusId = 4
                         });
@@ -386,8 +415,8 @@ namespace Wheelzy.Infrastructure.Migrations
                         new
                         {
                             Id = 4,
-                            Description = "Eco",
-                            ModelId = 2
+                            Description = "Base",
+                            ModelId = 4
                         });
                 });
 
@@ -420,28 +449,28 @@ namespace Wheelzy.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            OrderId = 1,
+                            OrderId = 2,
                             StatusId = 1,
-                            Timestamp = new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Timestamp = new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
-                            OrderId = 2,
+                            OrderId = 3,
                             StatusId = 1,
                             Timestamp = new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
-                            OrderId = 2,
+                            OrderId = 3,
                             StatusId = 2,
                             Timestamp = new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
-                            OrderId = 2,
+                            OrderId = 3,
                             StatusId = 3,
                             Timestamp = new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
