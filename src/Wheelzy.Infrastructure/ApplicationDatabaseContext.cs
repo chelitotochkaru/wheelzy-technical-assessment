@@ -10,6 +10,7 @@ namespace Wheelzy.Infrastructure
 
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Buyer> Buyers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Status> Statuses { get; set; }
@@ -30,6 +31,7 @@ namespace Wheelzy.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBindingCustomer(modelBuilder);
             modelBindingBrand(modelBuilder);
             modelBindingModel(modelBuilder);
             modelBindingSubmodel(modelBuilder);
@@ -39,6 +41,7 @@ namespace Wheelzy.Infrastructure
             modelBindingStatus(modelBuilder);
             modelBindingTracking(modelBuilder);
 
+            dataSeedingCustomer(modelBuilder);
             dataSeedingBuyer(modelBuilder);
             dataSeedingBrand(modelBuilder);
             dataSeedingModel(modelBuilder);
@@ -50,6 +53,12 @@ namespace Wheelzy.Infrastructure
         }
 
         #region Models Binding
+
+        private void modelBindingCustomer(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Customer>()
+                .HasKey(b => b.Id);
+        }
 
         private void modelBindingBrand(ModelBuilder modelBuilder)
         {
@@ -139,6 +148,11 @@ namespace Wheelzy.Infrastructure
                 .HasKey(b => b.Id);
 
             modelBuilder.Entity<Order>()
+                .HasOne(o => o.Customer)
+                .WithOne()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Order>()
                 .HasOne(s => s.Buyer);
 
             modelBuilder.Entity<Order>()
@@ -151,6 +165,10 @@ namespace Wheelzy.Infrastructure
 
             modelBuilder.Entity<Order>()
                 .HasIndex(s => s.CarId)
+                .IsUnique(false);
+
+            modelBuilder.Entity<Order>()
+                .HasIndex(s => s.CustomerId)
                 .IsUnique(false);
         }
 
@@ -181,6 +199,14 @@ namespace Wheelzy.Infrastructure
         #endregion
 
         #region Data seeding
+
+        private void dataSeedingCustomer(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Customer>().HasData(
+                new Customer() { Id = 1, Name = "Jack" },
+                new Customer() { Id = 2, Name = "Peter" }
+            );
+        }
 
         private void dataSeedingBrand(ModelBuilder modelBuilder)
         {
@@ -242,8 +268,8 @@ namespace Wheelzy.Infrastructure
         private void dataSeedingOrder(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().HasData(
-                new Order() { Id = 1, CarId = 1, BuyerId = 1, StatusId = 1 },
-                new Order() { Id = 2, CarId = 2, BuyerId = 2, StatusId = 4, PickedUpDate = new DateTime(2024, 02, 28) }
+                new Order() { Id = 1, CustomerId = 1, CarId = 1, BuyerId = 1, StatusId = 1,CreatedDate = new DateTime(2024, 02, 28) },
+                new Order() { Id = 2, CustomerId = 2, CarId = 2, BuyerId = 2, StatusId = 4, CreatedDate = new DateTime(2024, 02, 24), PickedUpDate = new DateTime(2024, 02, 28) }
             );
         }
 

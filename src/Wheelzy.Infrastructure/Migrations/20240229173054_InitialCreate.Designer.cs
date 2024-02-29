@@ -12,8 +12,8 @@ using Wheelzy.Infrastructure;
 namespace Wheelzy.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDatabaseContext))]
-    [Migration("20240229021311_DatabaseVersion2")]
-    partial class DatabaseVersion2
+    [Migration("20240229173054_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,6 +169,35 @@ namespace Wheelzy.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Wheelzy.Domain.Entities.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Jack"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Peter"
+                        });
+                });
+
             modelBuilder.Entity("Wheelzy.Domain.Entities.Model", b =>
                 {
                     b.Property<int>("Id")
@@ -217,7 +246,7 @@ namespace Wheelzy.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Wheelzy.Domain.Entities.Sell", b =>
+            modelBuilder.Entity("Wheelzy.Domain.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -229,6 +258,9 @@ namespace Wheelzy.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PickedUpDate")
@@ -243,10 +275,12 @@ namespace Wheelzy.Infrastructure.Migrations
 
                     b.HasIndex("CarId");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("StatusId")
                         .IsUnique();
 
-                    b.ToTable("Sells");
+                    b.ToTable("Orders");
 
                     b.HasData(
                         new
@@ -254,6 +288,7 @@ namespace Wheelzy.Infrastructure.Migrations
                             Id = 1,
                             BuyerId = 1,
                             CarId = 1,
+                            CustomerId = 1,
                             PickedUpDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatusId = 1
                         },
@@ -262,6 +297,7 @@ namespace Wheelzy.Infrastructure.Migrations
                             Id = 2,
                             BuyerId = 2,
                             CarId = 2,
+                            CustomerId = 1,
                             PickedUpDate = new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatusId = 4
                         });
@@ -362,7 +398,7 @@ namespace Wheelzy.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("SellId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("StatusId")
@@ -373,7 +409,7 @@ namespace Wheelzy.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SellId");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("StatusId");
 
@@ -383,28 +419,28 @@ namespace Wheelzy.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            SellId = 1,
+                            OrderId = 1,
                             StatusId = 1,
                             Timestamp = new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
-                            SellId = 2,
+                            OrderId = 2,
                             StatusId = 1,
                             Timestamp = new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
-                            SellId = 2,
+                            OrderId = 2,
                             StatusId = 2,
                             Timestamp = new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
-                            SellId = 2,
+                            OrderId = 2,
                             StatusId = 3,
                             Timestamp = new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -448,7 +484,7 @@ namespace Wheelzy.Infrastructure.Migrations
                     b.Navigation("Brand");
                 });
 
-            modelBuilder.Entity("Wheelzy.Domain.Entities.Sell", b =>
+            modelBuilder.Entity("Wheelzy.Domain.Entities.Order", b =>
                 {
                     b.HasOne("Wheelzy.Domain.Entities.Buyer", "Buyer")
                         .WithMany()
@@ -462,15 +498,23 @@ namespace Wheelzy.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Wheelzy.Domain.Entities.Customer", "Customer")
+                        .WithOne()
+                        .HasForeignKey("Wheelzy.Domain.Entities.Order", "CustomerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Wheelzy.Domain.Entities.Status", "Status")
                         .WithOne()
-                        .HasForeignKey("Wheelzy.Domain.Entities.Sell", "StatusId")
+                        .HasForeignKey("Wheelzy.Domain.Entities.Order", "StatusId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Buyer");
 
                     b.Navigation("Car");
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Status");
                 });
@@ -488,9 +532,9 @@ namespace Wheelzy.Infrastructure.Migrations
 
             modelBuilder.Entity("Wheelzy.Domain.Entities.Tracking", b =>
                 {
-                    b.HasOne("Wheelzy.Domain.Entities.Sell", "Sell")
+                    b.HasOne("Wheelzy.Domain.Entities.Order", "Order")
                         .WithMany()
-                        .HasForeignKey("SellId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -500,7 +544,7 @@ namespace Wheelzy.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Sell");
+                    b.Navigation("Order");
 
                     b.Navigation("Status");
                 });

@@ -12,8 +12,8 @@ using Wheelzy.Infrastructure;
 namespace Wheelzy.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDatabaseContext))]
-    [Migration("20240229161117_ChangeSellToOrder")]
-    partial class ChangeSellToOrder
+    [Migration("20240229181555_OrderCreatedDate")]
+    partial class OrderCreatedDate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,6 +169,35 @@ namespace Wheelzy.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Wheelzy.Domain.Entities.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Jack"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Peter"
+                        });
+                });
+
             modelBuilder.Entity("Wheelzy.Domain.Entities.Model", b =>
                 {
                     b.Property<int>("Id")
@@ -231,7 +260,13 @@ namespace Wheelzy.Infrastructure.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PickedUpDate")
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("PickedUpDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("StatusId")
@@ -242,6 +277,8 @@ namespace Wheelzy.Infrastructure.Migrations
                     b.HasIndex("BuyerId");
 
                     b.HasIndex("CarId");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("StatusId")
                         .IsUnique();
@@ -254,7 +291,8 @@ namespace Wheelzy.Infrastructure.Migrations
                             Id = 1,
                             BuyerId = 1,
                             CarId = 1,
-                            PickedUpDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
                             StatusId = 1
                         },
                         new
@@ -262,6 +300,8 @@ namespace Wheelzy.Infrastructure.Migrations
                             Id = 2,
                             BuyerId = 2,
                             CarId = 2,
+                            CreatedDate = new DateTime(2024, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
                             PickedUpDate = new DateTime(2024, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StatusId = 4
                         });
@@ -462,6 +502,12 @@ namespace Wheelzy.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Wheelzy.Domain.Entities.Customer", "Customer")
+                        .WithOne()
+                        .HasForeignKey("Wheelzy.Domain.Entities.Order", "CustomerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Wheelzy.Domain.Entities.Status", "Status")
                         .WithOne()
                         .HasForeignKey("Wheelzy.Domain.Entities.Order", "StatusId")
@@ -471,6 +517,8 @@ namespace Wheelzy.Infrastructure.Migrations
                     b.Navigation("Buyer");
 
                     b.Navigation("Car");
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Status");
                 });
