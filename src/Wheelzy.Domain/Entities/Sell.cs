@@ -10,6 +10,7 @@ namespace Wheelzy.Domain.Entities
 		public Status Status { get; set; }
 		public int BuyerId { get; set; }
 		public Buyer Buyer { get; set; }
-	}
+        public DateTime PickedUpDate { get; set; }
+    }
 }
 
