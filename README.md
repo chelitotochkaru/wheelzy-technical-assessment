@@ -4,7 +4,7 @@
    Se utlizó el modelo Domain-Driven Design (DDD) para su arquitectura.<br />
    Para la creación de la base de datos se resolvió utilizando EF Migrations y también se utilizó EF Data Seeding para la populación de la misma.<br />
    El script solicitado se encuentra en [/databases/scripts/get_orders.sql](https://github.com/chelitotochkaru/wheelzy-technical-assessment/blob/dev/databases/scripts/get_orders.sql)<br />
-   El equivalente del script en EF se consume desde el endpoint [GET] /orders (una vez iniciado el proyecto).
+   El equivalente del script en EF se consume desde el endpoint [GET] /orders.
 2) Para resolver este tipo de situaciones se me ocurre implementar alguna herramienta de cache (2nd-Level Cache / In-Memory Cache) como Redis, Memcached, Cassandra, etc.
 3) * En mi experiencia el método SingleOrDefault() es menos performante que FirstOrDefault().
    * Validar que el FirstOrDefault no sea null antes de actualizar la propiedad.
@@ -14,7 +14,7 @@
    {
       foreach (var invoice in invoices)
       {
-         var customer = dbContext.Customers.FirstOrDefault(invoice.CustomerId.Value);
+         var customer = dbContext.Customers.FirstOrDefault(invoicei.CustomerId.Value);
          if (customer != null)
          {
             customer.Balance -= invoice.Total;
@@ -23,6 +23,14 @@
       dbContext.SaveChanges();
    }
    ```
+4) La resolución de este punto se consume desde el endpoint [GET] /orders/search.<br />
+
+   > **Comentarios**<br /><br />
+   > El método expuesto en el enunciado es Task\<OrderDTO\> GetOrders(), lo cambié a Task\<IEnumerable\<OrderDTO\>\> GetOrders() ya que el nombre esta pluralizado, y en efecto la consulta devuelve 0 o N registros.<br /><br />
+   > También se indica que si algún "filtro" no viene no debe tenerse en cuenta en la búsqueda. El único parámetro _nullable_ es isActive, por lo que hace que el resto de los parámetros sean obligatorios. 🧐<br /><br />
+   > El parámetro isActive da a entender que la base de datos debería utilizar borrado lógico(**SoftDelete**); no lo implementé pero tengo conocimiento de como hacerlo en EF, interfiriendo todas las consultas para que no se tenga que ir especificando el [Entity].Active=true.<br /><br />
+5) 
+
 ## Ejecución del proyecto
 
 Clonar el proyecto:<br />
