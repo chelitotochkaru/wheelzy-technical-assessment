@@ -3,7 +3,7 @@ namespace Wheelzy.Services.DTO
 {
 	public class OrderDTO
 	{
-		public int SellId { get; set; }
+		public int OrderId { get; set; }
 		public string Make { get; set; }
 		public string Model { get; set; }
 		public string Submodel { get; set; }
