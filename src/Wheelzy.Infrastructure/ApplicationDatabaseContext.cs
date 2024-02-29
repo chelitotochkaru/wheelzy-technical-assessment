@@ -8,12 +8,12 @@ namespace Wheelzy.Infrastructure
 	{
         #region DbSets
 
-        DbSet<Brand> Brands { get; set; }
-        DbSet<Buyer> Buyers { get; set; }
-        DbSet<Car> Cars { get; set; }
-        DbSet<Sell> Sells { get; set; }
-        DbSet<Status> Statuses { get; set; }
-        DbSet<Tracking> Trackings { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Buyer> Buyers { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Sell> Sells { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<Tracking> Trackings { get; set; }
 
         #endregion
 

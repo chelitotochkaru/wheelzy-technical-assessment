@@ -1,5 +1,7 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using Wheelzy.API.Configuration;
+using Wheelzy.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services
     .AddEndpointsApiExplorer()
+    .RegisterServices()
     .AddSwaggerGen(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo
@@ -32,4 +35,12 @@ if (app.Environment.IsDevelopment())
 app.UseDatabaseMigration(app.Services, app.Environment);
 
 app.UseHttpsRedirection();
+
+app
+    .MapGet("/sells", async ([FromServices]ISellsService sellsService) =>
+    {
+        return Results.Ok(await sellsService.GetCars());
+    })
+    .WithName("GetSells");
+
 app.Run();

@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wheelzy.Infrastructure\Wheelzy.Infrastructure.csproj" />
+    <ProjectReference Include="..\Wheelzy.Domain\Wheelzy.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Interfaces\" />
+    <None Remove="DTO\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="DTO\" />
+  </ItemGroup>
 </Project>
