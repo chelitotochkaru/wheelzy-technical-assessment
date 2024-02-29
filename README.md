@@ -29,7 +29,18 @@
    > El método expuesto en el enunciado es Task\<OrderDTO\> GetOrders(), lo cambié a Task\<IEnumerable\<OrderDTO\>\> GetOrders() ya que el nombre esta pluralizado, y en efecto la consulta devuelve 0 o N registros.<br /><br />
    > También se indica que si algún "filtro" no viene no debe tenerse en cuenta en la búsqueda. El único parámetro _nullable_ es isActive, por lo que hace que el resto de los parámetros sean obligatorios. 🧐<br /><br />
    > El parámetro isActive da a entender que la base de datos debería utilizar borrado lógico(**SoftDelete**); no lo implementé pero tengo conocimiento de como hacerlo en EF, interfiriendo todas las consultas para que no se tenga que ir especificando el [Entity].Active=true.<br /><br />
-5) 
+
+5) Asumiendo que se utliza el modelo de git-flow para el manejo de branches:
+   * Actualizar el estado del issue reportado en 'In Progress'
+   * Actualizar el branch 'dev'.
+   * Intentar reproducir el error reportado.
+   * Crear el nuevo branch bug/[issue] desde 'dev'.
+   * Corregir el error.
+   * Hacer una mínima prueba manual (si el proyecto trabaja con UnitTest, crear el UnitTest del mismo).
+   * Commitear el cambio.
+   * Pushear el branch el repositorio remoto.
+   * Crear el Pull Request/Merge Request.
+   * Actualizar el estado del issue reportado en 'Done' (en algunos tableros se utiliza un estado QA, y recién cuando el departamente de QA valida que el bug esta corregido se pasa a 'Done').
 
 ## Ejecución del proyecto
 
