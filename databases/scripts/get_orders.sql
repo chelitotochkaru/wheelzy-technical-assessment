@@ -1,5 +1,5 @@
 SELECT
-O.Id, CU.[Name] AS CustomerName, BR.Description AS Make, M.Description AS Model, SM.Description AS Submodel, C.[Year], C.ZipCode, B.[Name] AS BuyerName, B.Amount AS Quote, S.Description AS [Status], O.PickedUpDate
+O.Id, O.CreatedDate, CU.[Name] AS CustomerName, BR.Description AS Make, M.Description AS Model, SM.Description AS Submodel, C.[Year], C.ZipCode, B.[Name] AS BuyerName, B.Amount AS Quote, S.Description AS [Status], O.PickedUpDate
 FROM Orders O
 JOIN Buyers B ON B.Id = O.BuyerId
 JOIN Statuses S ON S.Id = O.StatusId
