@@ -37,10 +37,10 @@ app.UseDatabaseMigration(app.Services, app.Environment);
 app.UseHttpsRedirection();
 
 app
-    .MapGet("/sells", async ([FromServices]ISellsService sellsService) =>
+    .MapGet("/orders", async ([FromServices]IOrdersService ordersService) =>
     {
-        return Results.Ok(await sellsService.GetCars());
+        return Results.Ok(await ordersService.GetOrders());
     })
-    .WithName("GetSells");
+    .WithName("GetOrders");
 
 app.Run();

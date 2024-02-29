@@ -11,7 +11,7 @@ namespace Wheelzy.Infrastructure
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Buyer> Buyers { get; set; }
         public DbSet<Car> Cars { get; set; }
-        public DbSet<Sell> Sells { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Tracking> Trackings { get; set; }
 
@@ -35,7 +35,7 @@ namespace Wheelzy.Infrastructure
             modelBindingSubmodel(modelBuilder);
             modelBindingBuyer(modelBuilder);
             modelBindingCar(modelBuilder);
-            modelBindingSell(modelBuilder);
+            modelBindingOrder(modelBuilder);
             modelBindingStatus(modelBuilder);
             modelBindingTracking(modelBuilder);
 
@@ -45,7 +45,7 @@ namespace Wheelzy.Infrastructure
             dataSeedingSubmodel(modelBuilder);
             dataSeedingStatus(modelBuilder);
             dataSeedingCar(modelBuilder);
-            dataSeedingSell(modelBuilder);
+            dataSeedingOrder(modelBuilder);
             dataSeedingTracking(modelBuilder);
         }
 
@@ -133,23 +133,23 @@ namespace Wheelzy.Infrastructure
                 .IsUnique(true);
         }
 
-        private void modelBindingSell(ModelBuilder modelBuilder)
+        private void modelBindingOrder(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Sell>()
+            modelBuilder.Entity<Order>()
                 .HasKey(b => b.Id);
 
-            modelBuilder.Entity<Sell>()
+            modelBuilder.Entity<Order>()
                 .HasOne(s => s.Buyer);
 
-            modelBuilder.Entity<Sell>()
+            modelBuilder.Entity<Order>()
                 .HasOne(s => s.Car);
 
-            modelBuilder.Entity<Sell>()
+            modelBuilder.Entity<Order>()
                 .HasOne(s => s.Status)
                 .WithOne()
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Sell>()
+            modelBuilder.Entity<Order>()
                 .HasIndex(s => s.CarId)
                 .IsUnique(false);
         }
@@ -166,7 +166,7 @@ namespace Wheelzy.Infrastructure
                 .HasKey(b => b.Id);
 
             modelBuilder.Entity<Tracking>()
-                .HasOne(t => t.Sell);
+                .HasOne(t => t.Order);
 
             modelBuilder.Entity<Tracking>()
                 .HasOne(t => t.Status)
@@ -239,21 +239,21 @@ namespace Wheelzy.Infrastructure
             );
         }
 
-        private void dataSeedingSell(ModelBuilder modelBuilder)
+        private void dataSeedingOrder(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Sell>().HasData(
-                new Sell() { Id = 1, CarId = 1, BuyerId = 1, StatusId = 1 },
-                new Sell() { Id = 2, CarId = 2, BuyerId = 2, StatusId = 4, PickedUpDate = new DateTime(2024, 02, 28) }
+            modelBuilder.Entity<Order>().HasData(
+                new Order() { Id = 1, CarId = 1, BuyerId = 1, StatusId = 1 },
+                new Order() { Id = 2, CarId = 2, BuyerId = 2, StatusId = 4, PickedUpDate = new DateTime(2024, 02, 28) }
             );
         }
 
         private void dataSeedingTracking(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tracking>().HasData(
-                new Tracking() { Id = 1, SellId = 1, StatusId = 1, Timestamp = new DateTime(2024, 02, 28) },
-                new Tracking() { Id = 2, SellId = 2, StatusId = 1, Timestamp = new DateTime(2024, 02, 24) },
-                new Tracking() { Id = 3, SellId = 2, StatusId = 2, Timestamp = new DateTime(2024, 02, 24) },
-                new Tracking() { Id = 4, SellId = 2, StatusId = 3, Timestamp = new DateTime(2024, 02, 26) }
+                new Tracking() { Id = 1, OrderId = 1, StatusId = 1, Timestamp = new DateTime(2024, 02, 28) },
+                new Tracking() { Id = 2, OrderId = 2, StatusId = 1, Timestamp = new DateTime(2024, 02, 24) },
+                new Tracking() { Id = 3, OrderId = 2, StatusId = 2, Timestamp = new DateTime(2024, 02, 24) },
+                new Tracking() { Id = 4, OrderId = 2, StatusId = 3, Timestamp = new DateTime(2024, 02, 26) }
             );
         }
 

@@ -9,7 +9,7 @@ namespace Wheelzy.API.Configuration
 	{
 		public static IServiceCollection RegisterServices(this IServiceCollection  services)
 		{
-			services.AddScoped<ISellsService, SellsService>();
+			services.AddScoped<IOrdersService, OrdersService>();
 
 			return services;
 		}

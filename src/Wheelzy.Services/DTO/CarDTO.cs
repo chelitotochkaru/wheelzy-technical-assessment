@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Wheelzy.Services.DTO
 {
-	public class CarDTO
+	public class OrderDTO
 	{
 		public int SellId { get; set; }
 		public string Make { get; set; }

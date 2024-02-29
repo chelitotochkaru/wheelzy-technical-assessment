@@ -5,10 +5,12 @@ using Wheelzy.Services.Interfaces;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Wheelzy.Domain.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Collections.Generic;
 
 namespace Wheelzy.Services
 {
-	public class SellsService : ISellsService
+	public class OrdersService : IOrdersService
 	{
 		#region Readonly Fields
 
@@ -16,14 +18,16 @@ namespace Wheelzy.Services
 
 		#endregion
 
-		public SellsService(ApplicationDatabaseContext dbContext)
+		public OrdersService(ApplicationDatabaseContext dbContext)
 		{
 			_dbContext = dbContext;
 		}
 
-        public async Task<IEnumerable<CarDTO>> GetCars()
+        #region Methods
+
+        public async Task<IEnumerable<OrderDTO>> GetOrders()
         {
-			IQueryable<Sell> sells = _dbContext.Sells
+			IQueryable<Order> orders = _dbContext.Orders
 				.Include(s => s.Buyer)
 				.Include(s => s.Status)
                 .Include(s => s.Car)
@@ -34,8 +38,8 @@ namespace Wheelzy.Services
                     .ThenInclude(c => c.Submodel)
                 .AsQueryable();
 
-			return await sells
-                .Select(s => new CarDTO()
+			return await orders
+                .Select(s => new OrderDTO()
 				{
 					SellId = s.Id,
 					Make = s.Car.Make.Description,
@@ -51,6 +55,8 @@ namespace Wheelzy.Services
 				.AsNoTracking()
 				.ToListAsync();
         }
+
+        #endregion
     }
 }
 

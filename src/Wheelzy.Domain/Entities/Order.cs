@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Wheelzy.Domain.Entities
 {
-	public class Sell
+	public class Order
 	{
 		public int Id { get; set; }
 		public int CarId { get; set; }
