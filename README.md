@@ -38,7 +38,7 @@
    * Corregir el error.
    * Hacer una mínima prueba manual (si el proyecto trabaja con UnitTest, crear el UnitTest del mismo).
    * Commitear el cambio.
-   * Pushear el branch el repositorio remoto.
+   * Pushear el branch al repositorio remoto.
    * Crear el Pull Request/Merge Request.
    * Actualizar el estado del issue reportado en 'Done' (en algunos tableros se utiliza un estado QA, y recién cuando el departamente de QA valida que el bug esta corregido se pasa a 'Done').
 
