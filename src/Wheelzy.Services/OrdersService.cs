@@ -75,22 +75,20 @@ namespace Wheelzy.Services
 
             orders = orders.Where(o => o.CreatedDate.Date >= dateFrom.Date && o.CreatedDate.Date <= dateTo.Date);
 
-            orders = orders.Where(o => customerIds.Contains(o.CustomerId));
+            if (customerIds.Any())
+                orders = orders.Where(o => customerIds.Contains(o.CustomerId));
 
-            orders = orders.Where(o => statusIds.Contains(o.StatusId));
+            if (statusIds.Any())
+                orders = orders.Where(o => statusIds.Contains(o.StatusId));
 
-            //TODO: create Active column
-            /*
             if (isActive.HasValue)
-            {
                 orders = orders.Where(o => o.Active == isActive);
-            }
-            */
 
             return await orders
                 .Select(o => new OrderDTO()
                 {
                     OrderId = o.Id,
+                    CreatedDate = o.CreatedDate,
                     CustomerName = o.Customer.Name,
                     Make = o.Car.Make.Description,
                     Model = o.Car.Model.Description,

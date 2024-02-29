@@ -43,4 +43,11 @@ app
     })
     .WithName("GetOrders");
 
+app
+    .MapGet("/orders/search", async ([FromQuery]DateTime dateFrom, [FromQuery]DateTime dateTo, [FromQuery]string customerIds, [FromQuery]string statusIds, [FromQuery]bool? isActive, [FromServices] IOrdersService ordersService) =>
+    {
+        return Results.Ok(await ordersService.GetOrders(dateFrom, dateTo, customerIds.Split(",").Select(c => Convert.ToInt32(c)).ToList(),  statusIds.Split(",").Select(c => Convert.ToInt32(c)).ToList(), isActive));
+    })
+    .WithName("SearchOrders");
+
 app.Run();
